@@ -4,6 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Backdrop Pro</title>
+    
+    <!-- BOOT LEVEL DIAGNOSTICS: Catches white screen errors -->
+    <script>
+      window.addEventListener('error', function(event) {
+        var errorMsg = 'Boot Error: ' + event.message;
+        if (event.filename) {
+          errorMsg += ' in ' + event.filename + ':' + event.lineno;
+        }
+        
+        // Special check for GitHub Pages Raw Source code issue
+        var isGithub = window.location.hostname.includes('github.io');
+        var isTsxError = event.message && (event.message.includes('MIME type') || event.message.includes('module') || event.message.includes('Unexpected token'));
+        
+        var displayHtml = '<div style="color: white; background: #b91c1c; padding: 20px; font-family: sans-serif; z-index: 999999; position: fixed; top: 0; left: 0; width: 100%; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">';
+        
+        if (isGithub && isTsxError) {
+          displayHtml += '<h2 style="margin-top:0;">⚠️ GitHub Pages Setup Missing!</h2>';
+          displayHtml += '<p><strong>Why is the screen white?</strong> Because GitHub is serving raw source code instead of the compiled app.</p>';
+          displayHtml += '<p><strong>How to fix it right now:</strong></p>';
+          displayHtml += '<ol>';
+          displayHtml += '<li>Go to your GitHub Repository</li>';
+          displayHtml += '<li>Click on <strong>Settings</strong> ⚙️</li>';
+          displayHtml += '<li>Click on <strong>Pages</strong> in the left menu</li>';
+          displayHtml += '<li>Under "Build and deployment", change "Source" to <strong>GitHub Actions</strong></li>';
+          displayHtml += '</ol>';
+          displayHtml += '<p style="font-size: 12px; opacity: 0.8; margin-bottom:0;">Technical error: ' + event.message + '</p>';
+        } else {
+          displayHtml += '<h2 style="margin-top:0;">⚠️ Critical App Error</h2>';
+          displayHtml += '<p>The app crashed before it could start. Please take a screenshot of this error:</p>';
+          displayHtml += '<pre style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 4px; white-space: pre-wrap; word-break: break-all;">' + errorMsg + '</pre>';
+        }
+        
+        displayHtml += '</div>';
+        
+        // Ensure body exists
+        if (document.body) {
+          document.body.innerHTML += displayHtml;
+        } else {
+          window.addEventListener('DOMContentLoaded', function() {
+            document.body.innerHTML += displayHtml;
+          });
+        }
+      }, true); // Use capture phase to get all resource load errors too
+
+      window.addEventListener('unhandledrejection', function(event) {
+        if (document.body) {
+          document.body.innerHTML += '<div style="color: white; background: #b91c1c; padding: 20px; font-family: sans-serif; z-index: 999999; position: fixed; top: 0; left: 0; width: 100%;">' +
+            '<strong>Critical Promise Error:</strong> ' + (event.reason ? event.reason.message || event.reason : 'Unknown') +
+            '</div>';
+        }
+      });
+    </script>
+
     <meta name="description" content="AI-powered product photography tool to automatically remove backgrounds and place products in new settings." />
     <meta property="og:title" content="Product Backdrop Pro" />
     <meta property="og:description" content="AI-powered product photography tool to automatically remove backgrounds and place products in new settings." />
