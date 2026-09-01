@@ -1,0 +1,11 @@
+{
+  "name": "Product Backdrop Pro",
+  "description": "AI-powered product photography tool to automatically remove backgrounds and place products in new settings.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
